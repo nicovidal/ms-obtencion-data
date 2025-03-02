@@ -15,3 +15,10 @@ dbConnection();
 app.listen(process.env.PORT,()=>{
     console.log(`Servidor ok ${process.env.PORT}`)
 });
+
+
+//read and parse body
+app.use(express.json());
+
+//rutas
+app.use('/api/data',require('./routes/persona'));
