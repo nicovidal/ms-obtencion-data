@@ -1,29 +1,43 @@
 const { response } = require("express");
-const {Deuda}=require('../models/deuda')
+const { Deuda } = require("../models/deuda");
 
-const crearDeuda=async(req,res=response)=>{
+const crearDeuda = async (req, res = response) => {
+  try {
+    let deuda = new Deuda(req.body);
 
-    try {
+    await deuda.save();
 
-        let deuda= new Deuda();
+    res.status(201).json({
+      ok: true,
+      msg: "Datos deuda guardados correctamente",
+      uid: deuda.id,
+    });
+  } catch (error) {
+    res.status(500).json({
+      ok: false,
+      msg: "No se creo deuda",
+    });
+  }
+};
 
-        await deuda.save();
+const obtenerDeuda = async (req, res = response) => {
+  try {
+    const deuda = await Deuda.find();
 
-        res.status(201).json({
-            ok: true,
-            msg: "Datos deuda guardados correctamente",
-            uid: deuda.id,
-          });
-        
-    } catch (error) {
-        res.status(500).json({
-            ok: false,
-            msg: "No se creo deuda",
-          });
-    }
+    res.json({
+      ok: true,
+      deuda,
+    });
+  } catch (error) {
+    console.log(error);
+    res.status(500).json({
+      ok: false,
+      msg: "Hable con el administrador",
+    });
+  }
+};
 
-}
-
-module.exports={
-    crearDeuda
-}
+module.exports = {
+  crearDeuda,
+  obtenerDeuda
+};
