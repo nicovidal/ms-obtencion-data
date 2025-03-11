@@ -1,32 +1,32 @@
 const { response } = require("express");
-const  Deuda  = require("../models/deuda");
+const Score = require("../models/score");
 
-const crearDeuda = async (req, res = response) => {
+const crearScore = async (req, res = response) => {
   try {
-    let deuda = new Deuda(req.body);
+    let score = new Score(req.body);
 
-    await deuda.save();
+    await score.save();
 
     res.status(201).json({
       ok: true,
-      msg: "Datos deuda guardados correctamente",
-      uid: deuda.id,
+      msg: "Datos de score guardados correctamente",
     });
   } catch (error) {
+    console.log(error);
     res.status(500).json({
       ok: false,
-      msg: "No se creo deuda",
+      msg: "No se creo",
     });
   }
 };
 
-const obtenerDeuda = async (req, res = response) => {
+const obtenerScore = async (req, res = response) => {
   try {
-    const deuda = await Deuda.find();
+    const score = await Score.find();
 
     res.json({
       ok: true,
-      deuda,
+      score,
     });
   } catch (error) {
     console.log(error);
@@ -38,22 +38,22 @@ const obtenerDeuda = async (req, res = response) => {
 };
 
 
-const obtenerDeudaRut = async (req, res = response) => {
+const obtenerScoreRut = async (req, res = response) => {
   try {
     const { rut } = req.query;
 
-    const deuda = await Deuda.findOne({rut});
+    const score = await Score.findOne({rut});
 
-    if (!deuda) {
+    if (!score) {
       return res.status(400).json({
         ok: false,
-        msg: "Deuda no existe",
+        msg: "score no existe",
       });
     }
 
     res.json({
       ok: true,
-      deuda,
+      score,
     });
   } catch (error) {
     console.log(error);
@@ -65,8 +65,10 @@ const obtenerDeudaRut = async (req, res = response) => {
 };
 
 
+
+
 module.exports = {
-  crearDeuda,
-  obtenerDeuda,
-  obtenerDeudaRut
+  crearScore,
+  obtenerScore,
+  obtenerScoreRut
 };

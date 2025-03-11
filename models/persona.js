@@ -1,41 +1,33 @@
-const {Schema,model}=require('mongoose');
+const { Schema, model } = require("mongoose");
 
-const PersonaSchema=Schema({
+const PersonaSchema = new Schema({
+  rut: {
+    type: String,
+    require: true,
+  },
+  nombreCompleto: {
+    type: String,
+    require: true,
+  },
+  apellidoPaterno: {
+    type: String,
+    require: true,
+  },
+  apellidoMaterno: {
+    type: String,
+    require: true,
+  },
+  nombres: {
+    type: String,
+    require: true,
+  },
+});
 
+PersonaSchema.method("toJSON", function () {
+  const { _v, _id, ...object } = this.toObject();
 
-    rut:{
-        type:String,
-        require:true,
-    },
-    nombreCompleto:{
-        type:String,
-        require:true,
-    },
-    apellidoPaterno:{
-        type:String,
-        require:true,
-    },
-    apellidoMaterno:{
-        type:String,
-        require:true
-    },
-    nombres:{
-        type:String,
-        require:true
-    }
-    
+  object.id = _id;
+  return object;
+});
 
-
-})
-
-
-
-PersonaSchema.method('toJSON',function(){
-    const {_v,_id,...object}=this.toObject();
-
-    object.id=_id;
-    return object;
-
-})
-
-module.exports=model('Persona',PersonaSchema)
+module.exports = model("Persona", PersonaSchema);

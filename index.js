@@ -22,3 +22,6 @@ app.use(express.json());
 
 //rutas
 app.use('/api/data',require('./routes/persona'));
+app.use('/api/data',require('./routes/deuda'));
+app.use('/api/data',require('./routes/tipoPersona'));
+app.use('/api/data',require('./routes/score'));

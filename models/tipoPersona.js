@@ -2,7 +2,7 @@ const {Schema,model} = require('mongoose')
 
 
 
-const TipoPersona=Schema({
+const TipoPersona=new Schema({
 
 
     rut:{
@@ -13,7 +13,7 @@ const TipoPersona=Schema({
         type:String,
         require:true,
     },
-    terrorista:{
+    delincuente:{
         type:String,
         require:true,
     },
