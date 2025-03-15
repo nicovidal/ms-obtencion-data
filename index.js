@@ -3,6 +3,7 @@ const { dbConnection } = require("./database/config");
 require("dotenv").config();
 const swaggerSetup = require("./swagger");
 const cors = require("cors");
+
 // Server Express
 const app = express();
 
@@ -27,7 +28,6 @@ app.use("/api/data", require("./routes/cotizacion"));
 
 // Configurar Swagger
 swaggerSetup(app);
-
 // Escuchar peticiones
 app.listen(process.env.PORT, () => {
   console.log(`Servidor corriendo en el puerto ${process.env.PORT}`);

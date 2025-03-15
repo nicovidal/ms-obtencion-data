@@ -4,4 +4,5 @@ const swaggerDocument = YAML.load("./swagger.yml");
 
 module.exports = (app) => {
   app.use("/ms-obtencion-data", swaggerUi.serve, swaggerUi.setup(swaggerDocument));
+
 };

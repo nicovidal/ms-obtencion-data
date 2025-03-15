@@ -7,6 +7,27 @@ servers:
   - url: http://localhost:8080
     description: Servidor de desarrollo
 paths:
+  /api/data/score:
+    get:
+      summary: Obtener el score de los clientes
+      description: Retorna una lista de todas las cotizaciones registradas en la base de datos.
+      responses:
+        "200":
+          description: Lista de cotizaciones obtenida correctamente.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  ok:
+                    type: boolean
+                  score:
+                    type: array
+                    items:
+                      $ref: "#/components/schemas/Score"
+        "500":
+          description: Error en el servidor.
+
   /api/data/crearCotizacion:
     post:
       summary: Crear una Cotización
@@ -101,3 +122,14 @@ components:
             afp:
               type: string
               format: date
+    Score:
+      type: object
+      properties:
+        rut:
+          type: string
+        score:
+          type: integer
+        __v:
+          type: integer
+        id:
+          type: string
