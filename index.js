@@ -25,6 +25,7 @@ app.use("/api/data", require("./routes/deuda"));
 app.use("/api/data", require("./routes/tipoPersona"));
 app.use("/api/data", require("./routes/score"));
 app.use("/api/data", require("./routes/cotizacion"));
+app.use("/api/data", require("./routes/tabla-rangos"));
 
 // Configurar Swagger
 swaggerSetup(app);

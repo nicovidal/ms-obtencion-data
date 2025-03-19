@@ -4,23 +4,27 @@ const { Schema, model } = require('mongoose');
 const TablaRangoSchema=Schema({
 
     maximoDeuda: {
-        type: int,
+        type: Number,
         required: true,
     },
     politico: {
-        type:string,
+        type:String,
         require:true,
     },
     delincuente:{
-        type:string,
+        type:String,
         require:true
+    },
+    scoreMaximo:{
+        type:Number,
+        require:true,
     }
 
 
 })
 
 
-CotizacionSchema.method('toJSON',function(){
+TablaRangoSchema.method('toJSON',function(){
     const {_v,_id,...object}=this.toObject();
 
     object.id=_id;
@@ -29,4 +33,4 @@ CotizacionSchema.method('toJSON',function(){
 })
 
 
-module.exports = model('Cotizacion', CotizacionSchema);
+module.exports = model('TablaRango', TablaRangoSchema);
