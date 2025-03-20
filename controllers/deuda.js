@@ -37,32 +37,24 @@ const obtenerDeuda = async (req, res = response) => {
   }
 };
 
-
 const obtenerDeudaRut = async (req, res = response) => {
   try {
-    const { rut } = req.query;
+    const rut = req.query.rut;
+    const deuda = await Deuda.findOne({ rut });  // Consulta a la base de datos
 
-    const deuda = await Deuda.findOne({rut});
-
-    if (!deuda) {
-      return res.status(400).json({
-        ok: false,
-        msg: "Deuda no existe",
-      });
+    if (deuda) {
+      return res.json(deuda); // Devuelve los datos tal como están en la base de datos
+    } else {
+      return res.status(404).json({ msg: 'Deudas no encontradas' });
     }
-
-    res.json({
-      ok: true,
-      deuda,
-    });
   } catch (error) {
-    console.log(error);
     res.status(500).json({
-      ok: false,
-      msg: "Hable con el administrador",
+      msg: 'Error al obtener las deudas del cliente',
     });
   }
 };
+
+
 
 
 module.exports = {

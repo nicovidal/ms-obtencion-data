@@ -1,25 +1,15 @@
 const { Schema, model } = require('mongoose');
 
 const DeudaSchema = new Schema({
-    rut: {
-        type: String,
-        required: true,
-    },
-    deuda: {
-        nombreInstitucion: {
-            type: String,
-            required: true,
-        },
-        monto: {
-            type: String,
-            required: true,
-        },
-        fecha: {
-            type: Date, 
-            required: true,
-        }
-    }
-});
+    rut: { type: String, required: true },
+    deuda: [
+      {
+        nombreInstitucion: { type: String, required: true },
+        monto: { type: String, required: true },
+        fecha: { type: Date, required: true },
+      },
+    ],
+  });
 
 
 DeudaSchema.method('toJSON',function(){
