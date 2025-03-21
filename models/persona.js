@@ -1,32 +1,34 @@
 const { Schema, model } = require("mongoose");
 
-const PersonaSchema = new Schema({
-  rut: {
-    type: String,
-    require: true,
+const PersonaSchema = new Schema(
+  {
+    rut: {
+      type: String,
+      required: true,
+    },
+    nombreCompleto: {
+      type: String,
+      required: true,
+    },
+    apellidoPaterno: {
+      type: String,
+      required: true,
+    },
+    apellidoMaterno: {
+      type: String,
+      required: true,
+    },
+    nombres: {
+      type: String,
+      required: true,
+    },
   },
-  nombreCompleto: {
-    type: String,
-    require: true,
-  },
-  apellidoPaterno: {
-    type: String,
-    require: true,
-  },
-  apellidoMaterno: {
-    type: String,
-    require: true,
-  },
-  nombres: {
-    type: String,
-    require: true,
-  },
-});
+  { versionKey: false } 
+);
 
 PersonaSchema.method("toJSON", function () {
-  const { _v, _id, ...object } = this.toObject();
+  const { _id,...object } = this.toObject();
 
-  object.id = _id;
   return object;
 });
 

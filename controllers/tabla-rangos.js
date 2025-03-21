@@ -21,11 +21,11 @@ const crearTablaRangos = async (req, res = response) => {
 
 const obtenerTablaRangos = async (req,res = response) => {
   try {
-    const tablaRangos = await TablaRangos.find();
-    res.json({
-      ok: true,
+    const tablaRangos = await TablaRangos.findOne();
+    res.json(
+
       tablaRangos,
-    });
+    );
   } catch (error) {
     console.log(error);
     res.status(500).json({

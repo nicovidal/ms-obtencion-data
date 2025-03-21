@@ -40,10 +40,10 @@ const obtenerDeuda = async (req, res = response) => {
 const obtenerDeudaRut = async (req, res = response) => {
   try {
     const rut = req.query.rut;
-    const deuda = await Deuda.findOne({ rut });  // Consulta a la base de datos
+    const deuda = await Deuda.findOne({ rut });  
 
     if (deuda) {
-      return res.json(deuda); // Devuelve los datos tal como están en la base de datos
+      return res.json(deuda); 
     } else {
       return res.status(404).json({ msg: 'Deudas no encontradas' });
     }

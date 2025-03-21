@@ -10,8 +10,7 @@ const crearPersona = async (req, res = response) => {
     res.status(201).json({
       ok: true,
       msg: "Datos persona guardados correctamente",
-      uid: persona.id,
-      name: persona.nombre,
+
     });
   } catch (error) {
     res.status(500).json({

@@ -14,6 +14,7 @@ const crearCotizacion = async (req, res = response) => {
       uid: cotizacion.id,
     });
   } catch (error) {
+    console.log(error)
     res.status(500).json({
       ok: false,
       msg: "No se creo cotizacion",

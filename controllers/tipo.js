@@ -21,7 +21,7 @@ const crearTipo = async (req, res = response) => {
 
 const obtenerTipo = async (req, res = response) => {
   try {
-    const tipoPersona = await TipoPersona.find();
+    const tipoPersona = await TipoPersona.findOne();
 
     res.json({
       ok: true,
@@ -50,10 +50,9 @@ const obtenerTipoRut = async (req, res = response) => {
       });
     }
 
-    res.json({
-      ok: true,
+    res.json(
       tipoPersona,
-    });
+    );
   } catch (error) {
     console.log(error);
     res.status(500).json({

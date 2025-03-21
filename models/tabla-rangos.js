@@ -18,16 +18,16 @@ const TablaRangoSchema=Schema({
     scoreMaximo:{
         type:Number,
         require:true,
-    }
+    },
+},
 
-
-})
+{ versionKey: false } 
+)
 
 
 TablaRangoSchema.method('toJSON',function(){
-    const {_v,_id,...object}=this.toObject();
+    const {_id,...object}=this.toObject();
 
-    object.id=_id;
     return object;
 
 })

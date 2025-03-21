@@ -1,37 +1,28 @@
-const {Schema,model} = require('mongoose')
+const { Schema, model } = require("mongoose");
 
-
-
-const TipoPersona=new Schema({
-
-
-    rut:{
-        type:String,
-        require:true,
+const TipoPersona = new Schema(
+  {
+    rut: {
+      type: String,
+      require: true,
     },
-    politico:{
-        type:String,
-        require:true,
+    politico: {
+      type: String,
+      require: true,
     },
-    delincuente:{
-        type:String,
-        require:true,
+    delincuente: {
+      type: String,
+      require: true,
     },
+  },
 
+  { versionKey: false }
+);
 
+TipoPersona.method("toJSON", function () {
+  const { _id, ...object } = this.toObject();
 
-})
+  return object;
+});
 
-
-
-
-TipoPersona.method('toJSON',function(){
-    const {_v,_id,...object}=this.toObject();
-
-    object.id=_id;
-    return object;
-
-})
-
-
-module.exports=model('TipoPersona',TipoPersona)
+module.exports = model("TipoPersona", TipoPersona);
