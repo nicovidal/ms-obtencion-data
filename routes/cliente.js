@@ -7,7 +7,7 @@ const router=Router();
 router.post('/clienteNuevo',crearCliente)
 
 
-module.exports
+module.exports=router;
 
 
 

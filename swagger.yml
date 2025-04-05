@@ -3,17 +3,21 @@ info:
   title: API Documentación con OpenAPI
   description: API de ejemplo documentada con OpenAPI y Swagger
   version: 1.0.0
+
 servers:
   - url: http://localhost:8080
     description: Servidor de desarrollo
+
 paths:
   /api/data/score:
     get:
-      summary: Obtener el score de los clientes
-      description: Retorna una lista de todas las cotizaciones registradas en la base de datos.
+      summary: Obtener todos los clientes
+      description: Retorna una lista de todos los clientes registrados en la base de datos.
+      operationId: todoClientes
+      x-controller: clienteController
       responses:
         "200":
-          description: Lista de cotizaciones obtenida correctamente.
+          description: Lista de clientes obtenida correctamente.
           content:
             application/json:
               schema:
@@ -21,115 +25,35 @@ paths:
                 properties:
                   ok:
                     type: boolean
-                  score:
+                  clientes:
                     type: array
                     items:
-                      $ref: "#/components/schemas/Score"
-        "500":
-          description: Error en el servidor.
-
-  /api/data/crearCotizacion:
-    post:
-      summary: Crear una Cotización
-      description: Crea un nuevo registro de cotización para un usuario.
-      requestBody:
-        required: true
-        content:
-          application/json:
-            schema:
-              $ref: "#/components/schemas/Cotizacion"
-      responses:
-        "201":
-          description: Cotización creada correctamente.
-          content:
-            application/json:
-              schema:
-                type: object
-                properties:
-                  ok:
-                    type: boolean
-                  msg:
-                    type: string
-                  uid:
-                    type: string
-        "500":
-          description: Error en el servidor.
-
-  /api/data/listadoCotizaciones:
-    get:
-      summary: Obtener todas las Cotizaciones
-      description: Retorna una lista de todas las cotizaciones registradas en la base de datos.
-      responses:
-        "200":
-          description: Lista de cotizaciones obtenida correctamente.
-          content:
-            application/json:
-              schema:
-                type: object
-                properties:
-                  ok:
-                    type: boolean
-                  cotizaciones:
-                    type: array
-                    items:
-                      $ref: "#/components/schemas/Cotizacion"
-        "500":
-          description: Error en el servidor.
-
-  /api/data/cotizacionesRut:
-    get:
-      summary: Obtener Cotización por RUT
-      description: Obtiene una cotización filtrada por el RUT del usuario.
-      parameters:
-        - name: rut
-          in: query
-          required: true
-          schema:
-            type: string
-      responses:
-        "200":
-          description: Cotización encontrada.
-          content:
-            application/json:
-              schema:
-                type: object
-                properties:
-                  ok:
-                    type: boolean
-                  cotizacion:
-                    $ref: "#/components/schemas/Cotizacion"
-        "400":
-          description: Cotización no encontrada.
+                      $ref: "#/components/schemas/Cliente"
         "500":
           description: Error en el servidor.
 
 components:
   schemas:
-    Cotizacion:
-      type: object
-      properties:
-        id:
-          type: string
-        rut:
-          type: string
-        cotizaciones:
-          type: object
-          properties:
-            mes:
-              type: string
-            remuneracionImponible:
-              type: string
-            afp:
-              type: string
-              format: date
-    Score:
+    Cliente:
       type: object
       properties:
         rut:
           type: string
-        score:
-          type: integer
-        __v:
-          type: integer
-        id:
+          example: "12345678-9"
+        datos:
+          type: array
+          items:
+            $ref: "#/components/schemas/DatoCliente"
+
+    DatoCliente:
+      type: object
+      properties:
+        nombreCompleto:
           type: string
+          example: "Juan Pérez"
+        Cupo:
+          type: string
+          example: "500000"
+        tipoTarjeta:
+          type: string
+          example: "Visa Gold"

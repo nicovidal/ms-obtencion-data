@@ -1,26 +1,39 @@
 const { response } = require("express");
-const Cliente = require("../models/clientes");
+const {
+  crearClienteService,
+  obtenerTodosClientesService
+} = require("../services/cliente.service");
 
 const crearCliente = async (req, res = response) => {
-
-
   try {
-    let cliente = new Cliente(req.body);
-
-    await cliente.save();
-    
+    await crearClienteService(req.body);
     res.status(201).json({
-      ok:true,
-      msg:'cliente guardado correctamente'
+      ok: true,
+      msg: 'Cliente guardado correctamente'
     });
   } catch (error) {
-
-      throw new Error('Error al crear cliente')
+    console.error(error);
+    res.status(500).json({
+      ok: false,
+      msg: 'Error al crear cliente'
+    });
   }
 };
 
+const todoClientes = async (req, res = response) => {
+  try {
+    const clientes = await obtenerTodosClientesService();
+    res.status(200).json({ clientes });
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({
+      ok: false,
+      msg: 'Error al obtener clientes'
+    });
+  }
+};
 
-
-module.exports={
-  crearCliente
-}
+module.exports = {
+  crearCliente,
+  todoClientes
+};
