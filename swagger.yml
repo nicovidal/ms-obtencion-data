@@ -9,6 +9,51 @@ servers:
     description: Servidor de desarrollo
 
 paths:
+  /obtenerClientes:
+    get:
+      description: Obtiene lista de clientes
+      operationId: clienteRut
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/listaClientes"
+        "204":
+          description: Sin Contenido
+        "400":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorGenerico'
+          description: error 400
+        "403":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorGenerico'
+          description: Acceso no permitido al contenido
+        "404":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorGenerico'
+          description: Cliente no encontrado
+        "500":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorGenerico'
+          description: Error interno      
+      tags:
+        - private
+      x-codegen-request-body-name: request
+      x-eov-operation-handler: controllers/clientes      
+    
+
+
+
   /api/data/score:
     get:
       summary: Obtener todos los clientes
@@ -31,9 +76,16 @@ paths:
                       $ref: "#/components/schemas/Cliente"
         "500":
           description: Error en el servidor.
+      x-codegen-request-body-name: request
+      x-eov-operation-handler: controllers/generaDocumentoController       
 
 components:
   schemas:
+    listaClientes:
+      type: array
+      items:
+        $ref: '#/components/schemas/Cliente'
+
     Cliente:
       type: object
       properties:
@@ -43,7 +95,7 @@ components:
         datos:
           type: array
           items:
-            $ref: "#/components/schemas/DatoCliente"
+            $ref: '#/components/schemas/DatoCliente'
 
     DatoCliente:
       type: object
@@ -57,3 +109,14 @@ components:
         tipoTarjeta:
           type: string
           example: "Visa Gold"
+
+    ErrorGenerico:
+      type: object
+      properties:
+        message:
+          type: string
+          example: "Ocurrió un error inesperado"
+        code:
+          type: integer
+          example: 500
+

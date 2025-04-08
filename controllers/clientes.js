@@ -1,7 +1,8 @@
 const { response } = require("express");
 const {
   crearClienteService,
-  obtenerTodosClientesService
+  obtenerTodosClientesService,
+  obtenerClienteRutService
 } = require("../services/cliente.service");
 
 const crearCliente = async (req, res = response) => {
@@ -33,7 +34,25 @@ const todoClientes = async (req, res = response) => {
   }
 };
 
+const clienteRut=async(req,res=response)=>{
+
+  const {rut}=req.body
+
+  try {
+    const cliente=await obtenerClienteRutService(rut)
+    res.status(200).json({cliente})
+  } catch (error) {
+    console.error(error)
+    res.status(500).json({
+      ok: false,
+      msg: 'Error al obtener clientes'
+    });
+    
+  }
+}
+
 module.exports = {
   crearCliente,
-  todoClientes
+  todoClientes,
+  clienteRut
 };

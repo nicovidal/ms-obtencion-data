@@ -11,7 +11,13 @@ const obtenerTodosClientesService = async () => {
   return clientes;
 };
 
+const obtenerClienteRutService=async(rut)=>{
+  const cliente=await Cliente.findOne(rut);
+  return cliente;
+}
+
 module.exports = {
   crearClienteService,
-  obtenerTodosClientesService
+  obtenerTodosClientesService,
+  obtenerClienteRutService
 };
