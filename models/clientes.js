@@ -11,7 +11,11 @@ const ClienteSchema = Schema({
         type: String,
         required: true,
       },
-      Cupo: {
+      cupoClp: {
+        type: String,
+        required: true,
+      },
+      cupoUsd: {
         type: String,
         required: true,
       },

@@ -7,13 +7,21 @@ const {
 
 const crearCliente = async (req, res = response) => {
   try {
-    await crearClienteService(req.body);
+    await crearClienteService(req.body); 
     res.status(201).json({
       ok: true,
       msg: 'Cliente guardado correctamente'
     });
   } catch (error) {
     console.error(error);
+
+    if (error.message === 'El cliente ya existe') {
+      return res.status(400).json({
+        ok: false,
+        msg: error.message
+      });
+    }
+
     res.status(500).json({
       ok: false,
       msg: 'Error al crear cliente'

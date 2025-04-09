@@ -47,22 +47,24 @@ paths:
                 $ref: '#/components/schemas/ErrorGenerico'
           description: Error interno      
       tags:
-        - private
+        - Clientes
       x-codegen-request-body-name: request
-      x-eov-operation-handler: controllers/clientes      
-    
-
-
-
-  /api/data/score:
-    get:
-      summary: Obtener todos los clientes
-      description: Retorna una lista de todos los clientes registrados en la base de datos.
-      operationId: todoClientes
-      x-controller: clienteController
+      x-eov-operation-handler: clientes
+      
+  /api/data/crearNuevoCliente:
+    post:
+      summary: Crear nuevo cliente
+      description: Crea un nuevo cliente en la base de datos.
+      operationId: crearCliente
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/Cliente"
       responses:
-        "200":
-          description: Lista de clientes obtenida correctamente.
+        "201":
+          description: Cliente creado correctamente.
           content:
             application/json:
               schema:
@@ -70,24 +72,35 @@ paths:
                 properties:
                   ok:
                     type: boolean
-                  clientes:
-                    type: array
-                    items:
-                      $ref: "#/components/schemas/Cliente"
+                    example: true
+                  msg:
+                    type: string
+                    example: cliente guardado correctamente
+        "400":
+          description: Error en la solicitud
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorGenerico'
         "500":
-          description: Error en el servidor.
+          description: Error interno del servidor
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorGenerico'
+      tags:
+        - Clientes
       x-codegen-request-body-name: request
-      x-eov-operation-handler: controllers/generaDocumentoController       
-
+      x-eov-operation-handler: clientes
+    
 components:
   schemas:
-    listaClientes:
-      type: array
-      items:
-        $ref: '#/components/schemas/Cliente'
-
+  
     Cliente:
       type: object
+      required:
+        - rut
+        - datos
       properties:
         rut:
           type: string
@@ -95,7 +108,25 @@ components:
         datos:
           type: array
           items:
-            $ref: '#/components/schemas/DatoCliente'
+            type: object
+            required:
+              - nombreCompleto
+              - cupoClp
+              - cupoUsd
+              - tipoTarjeta
+            properties:
+              nombreCompleto:
+                type: string
+                example: "Juan Pérez"
+              cupoClp:
+                type: string
+                example: "500000"
+              cupoUsd:
+                type: string
+                example: "600"
+              tipoTarjeta:
+                type: string
+                example: "Visa Gold"
 
     DatoCliente:
       type: object
@@ -110,12 +141,26 @@ components:
           type: string
           example: "Visa Gold"
 
+    RespuestaCreacion:
+      type: object
+      properties:
+        ok:
+          type: boolean
+          example: true
+        msg:
+          type: string
+          example: Cliente creado correctamente
+    listaClientes:
+      type: array
+      items:
+        $ref: "#/components/schemas/Cliente"
+
     ErrorGenerico:
       type: object
       properties:
         message:
           type: string
-          example: "Ocurrió un error inesperado"
+          example: Ocurrió un error inesperado
         code:
           type: integer
           example: 500
