@@ -1,20 +1,20 @@
 const { response } = require("express");
-const  Cotizacion  = require("../models/cotizacion");
-
+const {
+  crearCotizacionService,
+  obtenerCotizacionesService,
+} = require("../services/cotizaciones.service");
+const { obtenerClienteRutService } = require("../services/cliente.service");
 
 const crearCotizacion = async (req, res = response) => {
   try {
-    let cotizacion = new Cotizacion(req.body);
-
-    await cotizacion.save();
+    await crearCotizacionService(req.body);
 
     res.status(201).json({
       ok: true,
       msg: "Datos cotizacion guardados correctamente",
-      uid: cotizacion.id,
     });
   } catch (error) {
-    console.log(error)
+    console.log(error);
     res.status(500).json({
       ok: false,
       msg: "No se creo cotizacion",
@@ -24,7 +24,7 @@ const crearCotizacion = async (req, res = response) => {
 
 const obtenerCotizaciones = async (req, res = response) => {
   try {
-    const cotizaciones = await Cotizacion.find();
+    const cotizaciones = await obtenerCotizacionesService();
 
     res.json({
       ok: true,
@@ -39,12 +39,12 @@ const obtenerCotizaciones = async (req, res = response) => {
   }
 };
 
-
 const obtenerCotizacionRut = async (req, res = response) => {
-  try {
-    const { rut } = req.query;
+  const { rut } = req.query;
 
-    const cotizacion = await Cotizacion.findOne({rut});
+  try {
+  
+    const cotizacion = await obtenerClienteRutService({ rut });
 
     if (!cotizacion) {
       return res.status(400).json({
@@ -61,14 +61,13 @@ const obtenerCotizacionRut = async (req, res = response) => {
     console.log(error);
     res.status(500).json({
       ok: false,
-      msg: "error obtener cotizacion al rut"+rut,
+      msg: "error obtener cotizacion al rut" + rut,
     });
   }
 };
 
-
-module.exports={
-    crearCotizacion,
-    obtenerCotizaciones,
-    obtenerCotizacionRut
-}
+module.exports = {
+  crearCotizacion,
+  obtenerCotizaciones,
+  obtenerCotizacionRut,
+};
