@@ -1,16 +1,17 @@
 const { response } = require("express");
-const  Deuda  = require("../models/deuda");
+const Deuda = require("../models/deuda");
+const {
+  crearDeudaService,
+  obtenerDeudasService,
+} = require("../services/deuda.service");
+const { obtenerClienteRutService } = require("../services/cliente.service");
 
 const crearDeuda = async (req, res = response) => {
   try {
-    let deuda = new Deuda(req.body);
-
-    await deuda.save();
-
+    await crearDeudaService(req.body);
     res.status(201).json({
       ok: true,
       msg: "Datos deuda guardados correctamente",
-      uid: deuda.id,
     });
   } catch (error) {
     res.status(500).json({
@@ -22,8 +23,7 @@ const crearDeuda = async (req, res = response) => {
 
 const obtenerDeuda = async (req, res = response) => {
   try {
-    const deuda = await Deuda.find();
-
+    const deuda = await obtenerDeudasService();
     res.json({
       ok: true,
       deuda,
@@ -38,27 +38,24 @@ const obtenerDeuda = async (req, res = response) => {
 };
 
 const obtenerDeudaRut = async (req, res = response) => {
+  const { rut } = req.query.rut;
   try {
-    const rut = req.query.rut;
-    const deuda = await Deuda.findOne({ rut });  
+    const deuda = await obtenerClienteRutService(rut);
 
     if (deuda) {
-      return res.json(deuda); 
+      return res.json(deuda);
     } else {
-      return res.status(404).json({ msg: 'Deudas no encontradas' });
+      return res.status(404).json({ msg: "Deudas no encontradas" });
     }
   } catch (error) {
     res.status(500).json({
-      msg: 'Error al obtener las deudas del cliente',
+      msg: "Error al obtener las deudas del cliente",
     });
   }
 };
 
-
-
-
 module.exports = {
   crearDeuda,
   obtenerDeuda,
-  obtenerDeudaRut
+  obtenerDeudaRut,
 };

@@ -10,8 +10,20 @@ const crearDeudaService = async (deudaData) => {
 };
 
 
+const obtenerDeudaRutService=async(rut)=>{
+  const deuda=await Deuda.findOne(rut);
+  return deuda
+}
+
+
+const obtenerDeudasService=async()=>{
+  const deudas=await Deuda.findAll();
+  return deudas;
+}
 
 
 module.exports={
-    crearDeudaService
+    crearDeudaService,
+    obtenerDeudaRutService,
+    obtenerDeudasService
 }
