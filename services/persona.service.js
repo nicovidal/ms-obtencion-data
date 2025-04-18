@@ -16,9 +16,18 @@ const crearPersonaService = async (personaData) => {
   }
 };
 
+const obtenerPersonaRutService = async (rut) => {
+  const persona = await Persona.findOne(rut);
+  return persona;
+};
 
+const obtenerTodasPersonaService = async () => {
+  const persona = await Persona.findAll();
+  return persona;
+};
 
-
-module.exports={
-    crearPersonaService
-}
+module.exports = {
+  crearPersonaService,
+  obtenerPersonaRutService,
+  obtenerTodasPersonaService,
+};
