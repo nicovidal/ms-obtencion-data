@@ -27,7 +27,7 @@ const obtenerOfertas=async(req,res=response)=>{
   }
 }
 
-const obtenerOfertaRutService=async(req,res=response)=>{
+const obtenerOfertaRut=async(req,res=response)=>{
   
   const {rut}=req.query
 
@@ -51,5 +51,5 @@ const obtenerOfertaRutService=async(req,res=response)=>{
 module.exports={
     crearOferta,
     obtenerOfertas,
-    obtenerOfertaRutService
+    obtenerOfertaRut
 }
