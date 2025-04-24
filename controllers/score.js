@@ -1,11 +1,11 @@
 const { response } = require("express");
 const Score = require("../models/score");
+const { crearScoreService, obtenerScoreRutService } = require("../services/score.service");
 
 const crearScore = async (req, res = response) => {
   try {
-    let score = new Score(req.body);
-
-    await score.save();
+    
+    await crearScoreService(req.body);
 
     res.status(201).json({
       ok: true,
@@ -22,8 +22,7 @@ const crearScore = async (req, res = response) => {
 
 const obtenerScore = async (req, res = response) => {
   try {
-    const score = await Score.find();
-
+    const score = await obtenerTodosScoreClientesService();
     res.json({
       ok: true,
       score,
@@ -42,7 +41,7 @@ const obtenerScoreRut = async (req, res = response) => {
   try {
     const { rut } = req.query;
 
-    const score = await Score.findOne({rut});
+    const score = await obtenerScoreRutService(rut);
 
     if (!score) {
       return res.status(400).json({
