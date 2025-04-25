@@ -1,10 +1,12 @@
 const { response } = require("express");
 const Score = require("../models/score");
-const { crearScoreService, obtenerScoreRutService } = require("../services/score.service");
+const {
+  crearScoreService,
+  obtenerScoreRutService,
+} = require("../services/score.service");
 
 const crearScore = async (req, res = response) => {
   try {
-    
     await crearScoreService(req.body);
 
     res.status(201).json({
@@ -36,7 +38,6 @@ const obtenerScore = async (req, res = response) => {
   }
 };
 
-
 const obtenerScoreRut = async (req, res = response) => {
   try {
     const { rut } = req.query;
@@ -63,11 +64,8 @@ const obtenerScoreRut = async (req, res = response) => {
   }
 };
 
-
-
-
 module.exports = {
   crearScore,
   obtenerScore,
-  obtenerScoreRut
+  obtenerScoreRut,
 };

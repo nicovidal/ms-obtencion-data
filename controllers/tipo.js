@@ -1,11 +1,14 @@
 const { response } = require("express");
-const  TipoPersona  = require("../models/tipoPersona");
+const TipoPersona = require("../models/tipoPersona");
+const {
+  crearTipoPersonaService,
+  obtenerTipoPersonaService,
+  obtenerTipoPersonaRutService,
+} = require("../services/tipo.service");
 
 const crearTipo = async (req, res = response) => {
   try {
-    let tipoPersona = new TipoPersona(req.body);
-
-    await tipoPersona.save();
+    await crearTipoPersonaService(req.body);
 
     res.status(201).json({
       ok: true,
@@ -21,7 +24,7 @@ const crearTipo = async (req, res = response) => {
 
 const obtenerTipo = async (req, res = response) => {
   try {
-    const tipoPersona = await TipoPersona.findOne();
+    const tipoPersona = await obtenerTipoPersonaService();
 
     res.json({
       ok: true,
@@ -36,12 +39,11 @@ const obtenerTipo = async (req, res = response) => {
   }
 };
 
-
 const obtenerTipoRut = async (req, res = response) => {
   try {
     const { rut } = req.query;
 
-    const tipoPersona = await TipoPersona.findOne({rut});
+    const tipoPersona = await obtenerTipoPersonaRutService(rut);
 
     if (!tipoPersona) {
       return res.status(400).json({
@@ -50,9 +52,7 @@ const obtenerTipoRut = async (req, res = response) => {
       });
     }
 
-    res.json(
-      tipoPersona,
-    );
+    res.json(tipoPersona);
   } catch (error) {
     console.log(error);
     res.status(500).json({
@@ -62,9 +62,8 @@ const obtenerTipoRut = async (req, res = response) => {
   }
 };
 
-
 module.exports = {
   crearTipo,
   obtenerTipo,
-  obtenerTipoRut
+  obtenerTipoRut,
 };

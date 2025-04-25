@@ -1,11 +1,11 @@
 const { response } = require("express");
 const Persona = require("../models/persona");
+const { crearTipoPersonaService, obtenerTipoPersonaService, obtenerTipoPersonaRutService } = require("../services/tipo.service");
 
 const crearPersona = async (req, res = response) => {
   try {
-    let persona = new Persona(req.body);
 
-    await persona.save();
+    await crearTipoPersonaService(req.body)
 
     res.status(201).json({
       ok: true,
@@ -22,7 +22,8 @@ const crearPersona = async (req, res = response) => {
 
 const obtenerPersona = async (req, res = response) => {
   try {
-    const persona = await Persona.find();
+  
+    const persona=await obtenerTipoPersonaService();
 
     res.json({
       ok: true,
@@ -41,7 +42,7 @@ const obtenerPersonaRut = async (req, res = response) => {
   try {
     const { rut } = req.query;
 
-    const persona = await Persona.findOne({rut});
+    const persona = await obtenerTipoPersonaRutService(rut);
 
     if (!persona) {
       return res.status(400).json({

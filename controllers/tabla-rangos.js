@@ -1,11 +1,13 @@
 const { response } = require("express");
 const TablaRangos = require("../models/tabla-rangos");
+const {
+  obtenerTablaRangosService,
+  crearTablaRangoService,
+} = require("../services/tabla-rangos.service");
 
 const crearTablaRangos = async (req, res = response) => {
   try {
-    let tablaRangos = new TablaRangos(req.body);
-
-    await tablaRangos.save();
+    await crearTablaRangoService(req.body);
 
     res.status(201).json({
       ok: true,
@@ -19,13 +21,11 @@ const crearTablaRangos = async (req, res = response) => {
   }
 };
 
-const obtenerTablaRangos = async (req,res = response) => {
+const obtenerTablaRangos = async (req, res = response) => {
   try {
-    const tablaRangos = await TablaRangos.findOne();
-    res.json(
+    const tablaRangos = await obtenerTablaRangosService();
 
-      tablaRangos,
-    );
+    res.json(tablaRangos);
   } catch (error) {
     console.log(error);
     res.status(500).json({
