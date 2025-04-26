@@ -92,6 +92,50 @@ paths:
         - Clientes
       x-codegen-request-body-name: request
       x-eov-operation-handler: clientes
+
+
+  /listadoCotizaciones:
+    get:
+      description: Obtiene lista de clientes
+      operationId: obtenerCotizaciones
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/cotizaciones"
+        "204":
+          description: Sin Contenido
+        "400":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorGenerico'
+          description: error 400
+        "403":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorGenerico'
+          description: Acceso no permitido al contenido
+        "404":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorGenerico'
+          description: Cliente no encontrado
+        "500":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorGenerico'
+          description: Error interno      
+      tags:
+        - Clientes
+      x-codegen-request-body-name: request
+      x-eov-operation-handler: clientes
+
     
 components:
   schemas:
