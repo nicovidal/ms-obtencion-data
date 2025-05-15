@@ -25,7 +25,7 @@ app.use('/docs', swaggerUi.serve, swaggerUi.setup(swaggerDocument));
 // OpenAPI Validator: RUTEO AUTOMÁTICO
 app.use(
   OpenApiValidator.middleware({
-    apiSpec: path.join(__dirname, './api/openapi.yml'), 
+    apiSpec: path.join(__dirname, 'api/openapi.yml'), 
     operationHandlers: path.join(__dirname, './controllers'),
   })
   

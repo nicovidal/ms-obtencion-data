@@ -7,12 +7,21 @@ info:
 servers:
   - url: http://localhost:8080
     description: Servidor de desarrollo
+  - url: http://localhost:8080/api/data
+    description: Ruta base de los endpoints
 
 paths:
-  /obtenerClientes:
+  /api/data/obtenerClientes:
     get:
-      description: Obtiene lista de clientes
+      description: Obtiene lista de clientes (todos o por rut si se provee)
+      x-eov-operation-handler: controllers/clientes
       operationId: clienteRut
+      parameters:
+        - in: query
+          name: rut
+          schema:
+            type: string
+          required: false
       responses:
         "200":
           description: OK
@@ -23,118 +32,31 @@ paths:
         "204":
           description: Sin Contenido
         "400":
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/ErrorGenerico'
           description: error 400
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorGenerico'
         "403":
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/ErrorGenerico'
           description: Acceso no permitido al contenido
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorGenerico'
         "404":
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/ErrorGenerico'
           description: Cliente no encontrado
-        "500":
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/ErrorGenerico'
-          description: Error interno      
-      tags:
-        - Clientes
-      x-codegen-request-body-name: request
-      x-eov-operation-handler: clientes
-      
-  /api/data/crearNuevoCliente:
-    post:
-      summary: Crear nuevo cliente
-      description: Crea un nuevo cliente en la base de datos.
-      operationId: crearCliente
-      requestBody:
-        required: true
-        content:
-          application/json:
-            schema:
-              $ref: "#/components/schemas/Cliente"
-      responses:
-        "201":
-          description: Cliente creado correctamente.
-          content:
-            application/json:
-              schema:
-                type: object
-                properties:
-                  ok:
-                    type: boolean
-                    example: true
-                  msg:
-                    type: string
-                    example: cliente guardado correctamente
-        "400":
-          description: Error en la solicitud
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/ErrorGenerico'
         "500":
-          description: Error interno del servidor
+          description: Error interno
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/ErrorGenerico'
       tags:
         - Clientes
-      x-codegen-request-body-name: request
-      x-eov-operation-handler: clientes
-
-
-  /listadoCotizaciones:
-    get:
-      description: Obtiene lista de clientes
-      operationId: obtenerCotizaciones
-      responses:
-        "200":
-          description: OK
-          content:
-            application/json:
-              schema:
-                $ref: "#/components/schemas/cotizaciones"
-        "204":
-          description: Sin Contenido
-        "400":
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/ErrorGenerico'
-          description: error 400
-        "403":
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/ErrorGenerico'
-          description: Acceso no permitido al contenido
-        "404":
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/ErrorGenerico'
-          description: Cliente no encontrado
-        "500":
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/ErrorGenerico'
-          description: Error interno      
-      tags:
-        - Clientes
-      x-codegen-request-body-name: request
-      x-eov-operation-handler: clientes
 
     
 components:

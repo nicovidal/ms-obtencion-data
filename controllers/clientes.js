@@ -43,11 +43,16 @@ const todoClientes = async (req, res = response) => {
 };
 
 const clienteRut = async (req, res = response) => {
-  const { rut } = req.body;
+  const { rut } = req.query;
 
   try {
-    const cliente = await obtenerClienteRutService(rut);
-    res.status(200).json({ cliente });
+    if (rut) {
+      const cliente = await obtenerClienteRutService(rut);
+      return res.status(200).json({ cliente });
+    } else {
+      const clientes = await obtenerTodosClientesService();
+      return res.status(200).json({ clientes });
+    }
   } catch (error) {
     console.error(error);
     res.status(500).json({
@@ -56,6 +61,7 @@ const clienteRut = async (req, res = response) => {
     });
   }
 };
+
 
 module.exports = {
   crearCliente,
