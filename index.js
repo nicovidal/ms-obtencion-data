@@ -22,20 +22,20 @@ const swaggerDocument = YAML.load(path.join(__dirname, 'api/openapi.yml'));
 // Swagger Docs
 app.use('/docs', swaggerUi.serve, swaggerUi.setup(swaggerDocument));
 
-// OpenAPI Validator: RUTEO AUTOMÁTICO
-app.use(
-  OpenApiValidator.middleware({
-    apiSpec: path.join(__dirname, 'api/openapi.yml'), 
-    operationHandlers: path.join(__dirname, './controllers'),
-  })
-  
-);
-
 app.use(cors({
     origin: "*", 
     methods: ["GET", "POST", "PUT", "DELETE"], 
     allowedHeaders: ["Content-Type", "Authorization"] 
   }));
+
+
+app.use(
+  OpenApiValidator.middleware({
+    apiSpec: path.join(__dirname, 'api/openapi.yml'),
+    operationHandlers: path.join(__dirname, './controllers'),
+  })
+);
+
 
 // Configurar Swagger
 swaggerSetup(app);

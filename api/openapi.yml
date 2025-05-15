@@ -5,7 +5,7 @@ info:
   version: 1.0.0
 
 servers:
-  - url: http://localhost:8080
+  - url: /ms-obtencion-data/ms-obtencion-data
     description: Servidor de desarrollo
   - url: http://localhost:8080/api/data
     description: Ruta base de los endpoints
@@ -14,7 +14,7 @@ paths:
   /api/data/obtenerClientes:
     get:
       description: Obtiene lista de clientes (todos o por rut si se provee)
-      x-eov-operation-handler: controllers/clientes
+      x-eov-operation-handler: clientes
       operationId: clienteRut
       parameters:
         - in: query
