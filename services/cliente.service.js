@@ -16,12 +16,12 @@ const crearClienteService = async (clienteData) => {
 };
 
 const obtenerTodosClientesService = async () => {
-  const clientes = await Cliente.findAll();
+  const clientes = await Cliente.find();
   return clientes;
 };
 
 const obtenerClienteRutService = async (rut) => {
-  const cliente = await Cliente.findOne(rut);
+  const cliente = await Cliente.findOne({rut});
   return cliente;
 };
 

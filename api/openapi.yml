@@ -11,7 +11,7 @@ servers:
     description: Ruta base de los endpoints
 
 paths:
-  /api/data/obtenerClientes:
+  /api/data/obtenerClienteRut:
     get:
       description: Obtiene lista de clientes (todos o por rut si se provee)
       x-eov-operation-handler: clientes
@@ -57,6 +57,88 @@ paths:
                 $ref: '#/components/schemas/ErrorGenerico'
       tags:
         - Clientes
+  /api/data/obtenerClientes:
+    get:
+      description: Obtiene lista de clientes (todos o por rut si se provee)
+      x-eov-operation-handler: clientes
+      operationId: todoClientes
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/listaClientes"
+        "204":
+          description: Sin Contenido
+        "400":
+          description: error 400
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorGenerico'
+        "403":
+          description: Acceso no permitido al contenido
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorGenerico'
+        "404":
+          description: Cliente no encontrado
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorGenerico'
+        "500":
+          description: Error interno
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorGenerico'
+      tags:
+        - Clientes
+        
+  /api/data/crearCliente:
+    post:
+      summary: Crear un nuevo cliente
+      description: Crea un nuevo cliente si el rut no existe previamente
+      operationId: crearCliente
+      x-eov-operation-handler: clientes
+      tags:
+        - Clientes
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Cliente'
+      responses:
+        "201":
+          description: Cliente creado correctamente
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  ok:
+                    type: boolean
+                    example: true
+                  msg:
+                    type: string
+                    example: Cliente guardado correctamente
+        "400":
+          description: El cliente ya existe
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorGenerico'
+        "500":
+          description: Error interno al crear cliente
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorGenerico'
+
 
     
 components:
