@@ -139,11 +139,135 @@ paths:
               schema:
                 $ref: '#/components/schemas/ErrorGenerico'
 
+  /api/data/cotizacionesRut:
+    get:
+      description: Obtiene cotizaciones por Rut
+      x-eov-operation-handler: cotizacion
+      operationId: obtenerCotizacionRut
+      parameters:
+        - in: query
+          name: rut
+          schema:
+            type: string
+          required: false
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Cotizacion"
+        "204":
+          description: Sin Contenido
+        "400":
+          description: error 400
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorGenerico'
+        "403":
+          description: Acceso no permitido al contenido
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorGenerico'
+        "404":
+          description: Cliente no encontrado
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorGenerico'
+        "500":
+          description: Error interno
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorGenerico'
+      tags:
+        - Cotizaciones
+  /api/data/cotizaciones:
+    get:
+      description: Obtiene cotizaciones por Rut
+      x-eov-operation-handler: cotizacion
+      operationId: obtenerCotizaciones
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Cotizacion"
+        "204":
+          description: Sin Contenido
+        "400":
+          description: error 400
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorGenerico'
+        "403":
+          description: Acceso no permitido al contenido
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorGenerico'
+        "404":
+          description: Cliente no encontrado
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorGenerico'
+        "500":
+          description: Error interno
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorGenerico'
+      tags:
+        - Cotizaciones
+
+  /api/data/crearCotizaciones:
+    post:
+      description: Crea cotizaciones por rut
+      x-eov-operation-handler: cotizacion
+      operationId: crearCotizacion
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/CotizacionClienteInput"
+      responses:
+        "201":
+          description: Cotización creada
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  ok:
+                    type: boolean
+                  msg:
+                    type: string
+        "400":
+          description: Datos inválidos
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorGenerico"
+        "500":
+          description: Error del servidor
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorGenerico"
+      tags:
+        - Cotizaciones
+
 
     
 components:
   schemas:
-  
     Cliente:
       type: object
       required:
@@ -202,6 +326,58 @@ components:
       type: array
       items:
         $ref: "#/components/schemas/Cliente"
+
+    Cotizacion:
+      type: object
+      properties:
+        mes:
+          type: string
+          example: "012024"
+        remuneracionImponible:
+          type: string
+          example: "1000000"
+        afp:
+          type: string
+          example: "HABITAD"
+    CotizacionCliente:
+      type: object
+      properties:
+        rut:
+          type: string
+          example: "123456789"
+        cotizaciones:
+          type: array
+          items:
+            $ref: "#/components/schemas/Cotizacion"
+
+    CotizacionClienteInput:
+      type: object
+      required:
+        - rut
+        - cotizaciones
+      properties:
+        rut:
+          type: string
+          example: "123456789"
+        cotizaciones:
+          type: array
+          items:
+            type: object
+            required:
+              - mes
+              - remuneracionImponible
+              - afp
+            properties:
+              mes:
+                type: string
+                example: "012024"
+              remuneracionImponible:
+                type: string
+                example: "1000000"
+              afp:
+                type: string
+                example: "HABITAD"
+
 
     ErrorGenerico:
       type: object

@@ -2,8 +2,8 @@ const { response } = require("express");
 const {
   crearCotizacionService,
   obtenerCotizacionesService,
+  obtenerCotizacionesRutService
 } = require("../services/cotizaciones.service");
-const { obtenerClienteRutService } = require("../services/cliente.service");
 
 const crearCotizacion = async (req, res = response) => {
   try {
@@ -42,18 +42,24 @@ const obtenerCotizaciones = async (req, res = response) => {
 const obtenerCotizacionRut = async (req, res = response) => {
   const { rut } = req.query;
 
+  if (!rut) {
+    return res.status(400).json({
+      ok: false,
+      msg: "El rut es requerido",
+    });
+  }
+
   try {
-  
-    const cotizacion = await obtenerClienteRutService({ rut });
+    const cotizacion = await obtenerCotizacionesRutService(rut);
 
     if (!cotizacion) {
-      return res.status(400).json({
+      return res.status(404).json({
         ok: false,
-        msg: "cotizacion no existe",
+        msg: "Cotización no encontrada para el rut",
       });
     }
 
-    res.json({
+    res.status(200).json({
       ok: true,
       cotizacion,
     });
@@ -61,10 +67,11 @@ const obtenerCotizacionRut = async (req, res = response) => {
     console.log(error);
     res.status(500).json({
       ok: false,
-      msg: "error obtener cotizacion al rut" + rut,
+      msg: "Error al obtener cotización del rut " + rut,
     });
   }
 };
+
 
 module.exports = {
   crearCotizacion,

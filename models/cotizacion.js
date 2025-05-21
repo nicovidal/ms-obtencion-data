@@ -4,6 +4,7 @@ const CotizacionSchema = Schema({
   rut: {
     type: String,
     required: true,
+    unique: true
   },
   cotizaciones: [
     {
