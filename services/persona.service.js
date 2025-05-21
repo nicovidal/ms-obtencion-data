@@ -17,12 +17,12 @@ const crearPersonaService = async (personaData) => {
 };
 
 const obtenerPersonaRutService = async (rut) => {
-  const persona = await Persona.findOne(rut);
+  const persona = await Persona.findOne({rut});
   return persona;
 };
 
 const obtenerTodasPersonaService = async () => {
-  const persona = await Persona.findAll();
+  const persona = await Persona.find();
   return persona;
 };
 
