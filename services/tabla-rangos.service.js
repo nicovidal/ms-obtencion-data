@@ -9,7 +9,7 @@ const crearTablaRangoService=async(tablaRangosData)=>{
 }
 
 const obtenerTablaRangosService=async()=>{
-    const tablaRangos=new TablaRangos.findAll();
+    const tablaRangos=new TablaRangos.find();
     return tablaRangos
 }
 
