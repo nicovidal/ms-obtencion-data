@@ -576,7 +576,8 @@ paths:
 
   /api/data/tablaRangos:
     get:
-      description: Obtiene los rangos que se validan
+      summary: Obtiene los rangos que se validan
+      description: Retorna todos los rangos configurados en la base de datos
       x-eov-operation-handler: tabla-rangos
       operationId: obtenerTablaRangos
       responses:
@@ -585,13 +586,9 @@ paths:
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/Persona"
-        "404":
-          description: Oferta no encontrada
-          content:
-            application/json:
-              schema:
-                $ref: "#/components/schemas/ErrorGenerico"
+                type: array
+                items:
+                  $ref: "#/components/schemas/TablaRango"
         "500":
           description: Error interno
           content:
@@ -599,8 +596,44 @@ paths:
               schema:
                 $ref: "#/components/schemas/ErrorGenerico"
       tags:
-        - Persona
-  
+        - TablaRangos
+
+  /api/data/nuevaTablaRangos:
+    post:
+        summary: Crea una configuración de tabla de rangos
+        description: Permite crear un nuevo registro de rangos
+        x-eov-operation-handler: tabla-rangos
+        operationId: crearTablaRangos
+        requestBody:
+          required: true
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/TablaRango"
+        responses:
+          "201":
+            description: Rangos creados correctamente
+            content:
+              application/json:
+                schema:
+                  type: object
+                  properties:
+                    ok:
+                      type: boolean
+                      example: true
+                    msg:
+                      type: string
+                      example: Tabla rangos guardados correctamente
+          "500":
+            description: Error al crear rangos
+            content:
+              application/json:
+                schema:
+                  $ref: "#/components/schemas/ErrorGenerico"
+        tags:
+          - TablaRangos
+
+
 
     
 components:
@@ -788,6 +821,29 @@ components:
         nombres:
           type: string
           example: "Juan Carlos"
+
+    TablaRango:
+      type: object
+      required:
+        - maximoDeuda
+        - politico
+        - delincuente
+        - scoreMaximo
+      properties:
+        maximoDeuda:
+          type: number
+          example: 5000000
+        politico:
+          type: string
+          example: "NO"
+        delincuente:
+          type: string
+          example: "NO"
+        scoreMaximo:
+          type: number
+          example: 850
+
+
 
     ErrorGenerico:
       type: object
