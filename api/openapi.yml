@@ -633,6 +633,42 @@ paths:
         tags:
           - TablaRangos
 
+  /api/data/score:
+    post:
+      summary: Crea o actualiza el score de un cliente
+      description: Guarda o actualiza un registro de score por RUT
+      x-eov-operation-handler: score
+      operationId: crearScore
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/Score"
+      responses:
+        "201":
+          description: Score creado correctamente
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  ok:
+                    type: boolean
+                    example: true
+                  msg:
+                    type: string
+                    example: Datos de score guardados correctamente
+        "500":
+          description: Error interno
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorGenerico"
+      tags:
+        - Score
+
+
 
 
     
@@ -843,6 +879,18 @@ components:
           type: number
           example: 850
 
+    Score:
+        type: object
+        required:
+          - rut
+          - score
+        properties:
+          rut:
+            type: string
+            example: "123456789"
+          score:
+            type: number
+            example: 720
 
 
     ErrorGenerico:

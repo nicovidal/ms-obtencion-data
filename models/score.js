@@ -3,11 +3,11 @@ const { Schema, model } = require("mongoose");
 const ScoreSchema = new Schema({
   rut: {
     type: String,
-    require: true,
+    required: true,
   },
   score: {
     type: Number,
-    require: true,
+    required: true,
   },
 });
 
