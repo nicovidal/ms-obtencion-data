@@ -3,6 +3,7 @@ const Score = require("../models/score");
 const {
   crearScoreService,
   obtenerScoreRutService,
+  obtenerTodosScoreClientesService,
 } = require("../services/score.service");
 
 const crearScore = async (req, res = response) => {

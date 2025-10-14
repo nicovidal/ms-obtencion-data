@@ -1,6 +1,10 @@
 const { Schema, model } = require("mongoose");
 
 const ScoreSchema = new Schema({
+  _id: {
+    type: String,
+    required: true,
+  },
   rut: {
     type: String,
     required: true,

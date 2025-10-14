@@ -668,10 +668,71 @@ paths:
       tags:
         - Score
 
+  /api/data/listaScoreRut:
+    get:
+      description: Obtienes el score de un cliente
+      x-eov-operation-handler: score
+      operationId: obtenerScoreRut
+      parameters:
+        - in: query
+          name: rut
+          schema:
+            type: string
+          required: true
+          description: RUT del cliente para buscar score
+      responses:
+        "200":
+          description: Score encontrado
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Score"
+        "404":
+          description: Cliente no cuenta con Score
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorGenerico"
+        "500":
+          description: Error interno
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorGenerico"
+      tags:
+        - Score
+
+  /api/data/listaScore:
+    get:
+      description: Obtiene el score de los clientes
+      x-eov-operation-handler: score
+      operationId: obtenerScore
+      responses:
+        "200":
+          description: Score encontrada
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Score"
+        "404":
+          description: Score no encontrada
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorGenerico"
+        "500":
+          description: Error interno
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorGenerico"
+      tags:
+        - Score
 
 
 
-    
+
+
 components:
   schemas:
     Cliente:
