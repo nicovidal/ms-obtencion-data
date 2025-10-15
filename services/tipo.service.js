@@ -11,13 +11,13 @@ const crearTipoPersonaService=async(tipoData)=>{
 
 
 const obtenerTipoPersonaService=async()=>{
-    const tipoPersona=await TipoPersona.findAll();
+    const tipoPersona=await TipoPersona.find();
     return tipoPersona;
 }
 
 
 const obtenerTipoPersonaRutService=async(rut)=>{
-    const tipoPersona=await TipoPersona.findOne(rut);
+    const tipoPersona=await TipoPersona.findOne({rut});
     return tipoPersona;
 }
 

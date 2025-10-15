@@ -729,9 +729,115 @@ paths:
       tags:
         - Score
 
+  /api/data/tipos:
+    get:
+      description: Obtiene el tipo de el cliente
+      x-eov-operation-handler: tipo
+      operationId: obtenerTipo
+      responses:
+        "200":
+          description: Tipo encontrada
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Tipo"
+        "404":
+          description: Tipo no encontrada
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorGenerico"
+        "500":
+          description: Error interno
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorGenerico"
+      tags:
+        - Tipo
 
+  /api/data/guardar-tipos:
+    post:
+      summary: Crear un nuevo tipo de cliente
+      description: Crea y guarda un nuevo registro de tipo asociado a un cliente.
+      x-eov-operation-handler: tipo
+      operationId: crearTipo
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/Tipo"
+      responses:
+        "201":
+          description: Tipo creado correctamente
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  ok:
+                    type: boolean
+                    example: true
+                  msg:
+                    type: string
+                    example: Datos de tipo persona guardados correctamente
+        "400":
+          description: Error en los datos enviados
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorGenerico"
+        "500":
+          description: Error interno del servidor
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorGenerico"
+      tags:
+        - Tipo
 
-
+  /api/data/tipos/{rut}:
+    get:
+      summary: Obtener tipo de persona por RUT
+      description: Devuelve el registro de tipo asociado a un cliente específico según su RUT.
+      x-eov-operation-handler: tipo
+      operationId: obtenerTipoRut
+      parameters:
+        - name: rut
+          in: path
+          required: true
+          description: RUT del cliente (sin puntos ni guion)
+          schema:
+            type: string
+            example: "987654321"
+      responses:
+        "200":
+          description: Tipo encontrado correctamente
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  ok:
+                    type: boolean
+                    example: true
+                  data:
+                    $ref: "#/components/schemas/Tipo"
+        "404":
+          description: Tipo no encontrado
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorGenerico"
+        "500":
+          description: Error interno del servidor
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorGenerico"
+      tags:
+        - Tipo
 
 components:
   schemas:
@@ -952,6 +1058,23 @@ components:
           score:
             type: number
             example: 720
+
+    Tipo:
+      type: object
+      required:
+        - rut
+        - politico
+        - delincuente
+      properties:
+        rut:
+          type: string
+          example: "987654321"
+        politico:
+          type: string
+          example: "NO"
+        delincuente:
+          type: string
+          example: "NO"
 
 
     ErrorGenerico:
