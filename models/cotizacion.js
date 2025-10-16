@@ -1,29 +1,34 @@
 const { Schema, model } = require("mongoose");
 
-const CotizacionSchema = Schema({
-  rut: {
-    type: String,
-    required: true,
-    unique: true
-  },
-  cotizaciones: [
-    {
-      mes: {
-        type: String,
-        required: true,
-      },
-      remuneracionImponible: {
-        type: String,
-        required: true,
-      },
-      afp: {
-        type: String,
-        required: true,
-      },
+const CotizacionSchema = Schema(
+  {
+    _id: {
+      type: String,
+      required: true,
     },
-  ],
-},
-{ versionKey: false } 
+    rut: {
+      type: String,
+      required: true,
+      unique: true,
+    },
+    cotizaciones: [
+      {
+        mes: {
+          type: String,
+          required: true,
+        },
+        remuneracionImponible: {
+          type: String,
+          required: true,
+        },
+        afp: {
+          type: String,
+          required: true,
+        },
+      },
+    ],
+  },
+  { versionKey: false }
 );
 
 CotizacionSchema.method("toJSON", function () {

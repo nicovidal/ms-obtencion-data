@@ -2,6 +2,10 @@ const { Schema, model } = require("mongoose");
 
 const PersonaSchema = new Schema(
   {
+    _id: {
+      type: String,
+      required: true,
+    },
     rut: {
       type: String,
       required: true,
@@ -23,11 +27,11 @@ const PersonaSchema = new Schema(
       required: true,
     },
   },
-  { versionKey: false } 
+  { versionKey: false }
 );
 
 PersonaSchema.method("toJSON", function () {
-  const { _id,...object } = this.toObject();
+  const { _id, ...object } = this.toObject();
 
   return object;
 });

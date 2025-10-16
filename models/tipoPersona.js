@@ -2,6 +2,10 @@ const { Schema, model } = require("mongoose");
 
 const TipoPersona = new Schema(
   {
+    _id: {
+      type: String,
+      required: true,
+    },
     rut: {
       type: String,
       require: true,

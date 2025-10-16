@@ -1,6 +1,10 @@
 const { Schema, model } = require("mongoose");
 
 const ClienteSchema = Schema({
+  _id:{
+    type:String,
+    requiered:true,
+  },
   rut: {
     type: String,
     required: true,
