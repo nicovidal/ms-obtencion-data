@@ -31,7 +31,7 @@ const obtenerCotizacionesService = async () => {
 };
 
 const obtenerCotizacionesRutService = async (rut) => {
-  const cotizaciones = await Cotizacion.findOne({ rut });
+  const cotizaciones = await Cotizacion.findById(rut );
   return cotizaciones;
 };
 
