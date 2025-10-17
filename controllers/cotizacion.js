@@ -5,16 +5,19 @@ const {
   obtenerCotizacionesRutService
 } = require("../services/cotizaciones.service");
 
+const logger = require("../utils/logger")
+
 const crearCotizacion = async (req, res = response) => {
   try {
     await crearCotizacionService(req.body);
 
+    logger.info(`Cotizacion creada para rut ${req.body.rut}`)
     res.status(201).json({
       ok: true,
       msg: "Datos cotizacion guardados correctamente",
     });
   } catch (error) {
-    console.log(error);
+    logger.error(`Error en guardar cotizaciones para rut ${req.body.rut}`)
     res.status(500).json({
       ok: false,
       msg: "No se creo cotizacion",
@@ -26,12 +29,13 @@ const obtenerCotizaciones = async (req, res = response) => {
   try {
     const cotizaciones = await obtenerCotizacionesService();
 
+    logger.info(`Cotizaciones obtenidas con exito`)
     res.json({
       ok: true,
       cotizaciones,
     });
   } catch (error) {
-    console.log(error);
+    logger.error(`Error al obtener listado de cotizaciones`)
     res.status(500).json({
       ok: false,
       msg: "No se obtuvo cotizaciones",

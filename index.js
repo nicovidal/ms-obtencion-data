@@ -1,47 +1,49 @@
 const express = require("express");
 const { dbConnection } = require("./database/config");
 require("dotenv").config();
-const swaggerSetup = require("./swagger");
 const cors = require("cors");
-const OpenApiValidator = require('express-openapi-validator');
-const path = require('path');
+const OpenApiValidator = require("express-openapi-validator");
+const path = require("path");
 
-// Server Express
+// Swagger config (archivo aparte)
+const swaggerSetup = require("./swagger");
+
 const app = express();
 
-// Conectar a la BD
+//  Conectar a la BD
 dbConnection();
 
-// Leer y parsear el body
+//  Middlewares
 app.use(express.json());
+app.use(cors({ origin: "*", methods: ["GET", "POST", "PUT", "DELETE"] }));
 
-// Swagger UI
-const swaggerUi = require('swagger-ui-express');
-const YAML = require('yamljs');
-const swaggerDocument = YAML.load(path.join(__dirname, 'api/openapi.yml'));
-// Swagger Docs
-app.use('/docs', swaggerUi.serve, swaggerUi.setup(swaggerDocument));
+//  Swagger
+swaggerSetup(app);
 
-app.use(cors({
-    origin: "*", 
-    methods: ["GET", "POST", "PUT", "DELETE"], 
-    allowedHeaders: ["Content-Type", "Authorization"] 
-  }));
-
-
+// OpenAPI Validator (después de Swagger)
 app.use(
   OpenApiValidator.middleware({
-    apiSpec: path.join(__dirname, 'api/openapi.yml'),
-    operationHandlers: path.join(__dirname, './controllers'),
+    apiSpec: path.join(__dirname, "api/openapi.yml"),
+    validateRequests: true,
+    validateResponses: false,
+    operationHandlers: path.join(__dirname, "./controllers"),
   })
 );
 
+//  Error handler
+app.use((err, req, res, next) => {
+  console.error(err);
+  if (err.status) {
+    res.status(err.status).json({ error: err.message });
+  } else {
+    res.status(500).json({ error: "Error interno del servidor" });
+  }
+});
 
-// Configurar Swagger
-swaggerSetup(app);
-
-// Escuchar peticiones
+//  Iniciar servidor
 app.listen(process.env.PORT, () => {
   console.log(`Servidor corriendo en el puerto ${process.env.PORT}`);
-  console.log("Documentación en: http://localhost:" + process.env.PORT + "/ms-obtencion-data");
+  console.log(
+    `Swagger disponible en: http://localhost:${process.env.PORT}/ms-obtencion-data`
+  );
 });

@@ -4,24 +4,26 @@ const crearCotizacionService = async (cotizacionData) => {
   const { rut, cotizaciones } = cotizacionData;
 
   try {
-    const existente = await Cotizacion.findOne({ rut });
+    const cotizacion = await Cotizacion.findOneAndUpdate(
+      { rut },
+      {
+        _id: rut,
+        rut,
+        cotizaciones,
+      },
+      {
+        new: true,
+        upsert: true,
+        setDefaultsOnInsert: true,
+      }
+    );
 
-    if (existente) {
-  
-      existente.cotizaciones = cotizaciones;
-      await existente.save();
-      return existente;
-    } else {
-    
-      const nueva = new Cotizacion({ rut, cotizaciones });
-      await nueva.save();
-      return nueva;
-    }
+    return cotizacion;
   } catch (error) {
+    console.error("Error al crear cotización:", error);
     throw new Error("No se pudo guardar cotizaciones");
   }
 };
-
 
 const obtenerCotizacionesService = async () => {
   const cotizaciones = await Cotizacion.find();
@@ -29,7 +31,7 @@ const obtenerCotizacionesService = async () => {
 };
 
 const obtenerCotizacionesRutService = async (rut) => {
-  const cotizaciones = await Cotizacion.findOne({rut});
+  const cotizaciones = await Cotizacion.findOne({ rut });
   return cotizaciones;
 };
 
