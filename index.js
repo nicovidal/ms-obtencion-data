@@ -15,7 +15,8 @@ dbConnection();
 
 //  Middlewares
 app.use(express.json());
-app.use(cors({ origin: "*", methods: ["GET", "POST", "PUT", "DELETE"] }));
+app.use(cors({ origin:  ["https://api.devnico.cl", "http://localhost:8080"], methods: ["GET", "POST", "PUT", "DELETE"] }));
+app.use(cors(corsOptions));
 
 //  Swagger
 swaggerSetup(app);
